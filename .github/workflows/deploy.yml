@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dockerfile: [./client/Dockerfile, ./worker/Dockerfile, ./server/Dockerfile, ./nginx/Dockerfile]
-        imagetag: [multi-client, multi-worker, multi-server, multi-router]
+        docker: [[./client/Dockerfile, multi-client], [./worker/Dockerfile, multi-worker], [./server/Dockerfile, multi-server], [./nginx/Dockerfile, multi-nginx]]
     steps:
       -
         name: Checkout
@@ -30,6 +29,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ${{ matrix.dockerfile }}
+          file: ${{ matrix.docker[0] }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.imagetag }}:latest        
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.docker[1] }}:latest        
