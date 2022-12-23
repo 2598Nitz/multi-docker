@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        docker: [[./client/Dockerfile, multi-client], [./worker/Dockerfile, multi-worker], [./server/Dockerfile, multi-server], [./nginx/Dockerfile, multi-nginx]]
+        docker: [[./client, multi-client], [./worker, multi-worker], [./server, multi-server], [./nginx, multi-nginx]]
     steps:
       -
         name: Checkout
@@ -28,7 +28,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: ${{ matrix.docker[0] }}
+          context: ${{ matrix.docker[0] }}
+          file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.docker[1] }}:latest        
