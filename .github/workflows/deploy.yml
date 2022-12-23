@@ -13,7 +13,7 @@ jobs:
       - run: docker build -f ./client/Dockerfile.dev -t 2598nitz/client-test ./client
       - run: docker run -e CI=true 2598nitz/client-test npm test
   build:
-    needs: docker_setup
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
